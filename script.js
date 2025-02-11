@@ -1,16 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const messageInput = document.getElementById("message");
-    const generateButton = document.getElementById("generate");
-    const outputDiv = document.getElementById("output");
+    const sticker = document.getElementById("sticker");
 
-    generateButton.addEventListener("click", function () {
-        const message = messageInput.value.trim();
+    function placeRandomly() {
+        const maxX = window.innerWidth - sticker.clientWidth;
+        const maxY = window.innerHeight - sticker.clientHeight;
 
-        if (message === "") {
-            outputDiv.innerHTML = "<p class='error'>Please enter a message!</p>";
-            return;
-        }
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
 
-        outputDiv.innerHTML = `<div class='valentine-message'>💖 ${message} 💖</div>`;
-    });
+        sticker.style.left = `${randomX}px`;
+        sticker.style.top = `${randomY}px`;
+    }
+
+    placeRandomly();
+    window.addEventListener("resize", placeRandomly); // Reposition on resize
 });
