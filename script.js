@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const stickerFolder = "stickers/";
+    const stickerFolder = "sticker/"; // Path to sticker folder
     const stickerContainer = document.body;
 
     function getRandomPosition(max) {
@@ -22,16 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
         stickerContainer.appendChild(sticker);
     }
 
-    fetch(stickerFolder)
-        .then(response => response.text())
-        .then(text => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, "text/html");
-            const links = [...doc.querySelectorAll("a")]
-                .map(a => a.href.split("/").pop())
-                .filter(name => name.endsWith(".webm"));
-
-            links.forEach(addSticker);
-        })
-        .catch(error => console.error("Error loading stickers:", error));
+    // Load stickers with numbers 1 to 10
+    for (let i = 1; i <= 10; i++) {
+        addSticker(`sticker${i}.webm`);
+    }
 });
