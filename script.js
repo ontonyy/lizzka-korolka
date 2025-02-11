@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const stickerFolder = "stickers/"; // Path to sticker folder
+    const stickerFolder = "stickers/";
     const stickerContainer = document.body;
-    const stickerFormats = ["webm", "webp"];
+    const stickerFormats = ["webm", "webp", "tgs"];
 
-    function getRandomPosition(max, offset) {
-        return Math.floor(Math.random() * (max - offset));
+    function getRandomPosition(max) {
+        return Math.floor(Math.random() * max);
     }
 
     function addSticker(stickerName) {
@@ -19,18 +19,31 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.playsInline = true;
         }
 
-        sticker.onload = () => {
-            const offsetX = sticker.clientWidth || 100;
-            const offsetY = sticker.clientHeight || 100;
-            sticker.style.left = `${getRandomPosition(window.innerWidth, offsetX)}px`;
-            sticker.style.top = `${getRandomPosition(window.innerHeight, offsetY)}px`;
+        sticker.onerror = () => {
+            console.warn(`Sticker ${stickerName} failed to load and will be removed.`);
+            sticker.remove();
         };
+
+        sticker.onload = stickerName.endsWith(".webp") || stickerName.endsWith(".tgs") ? () => {
+            sticker.style.position = "absolute";
+            sticker.style.left = `${getRandomPosition(window.innerWidth - sticker.clientWidth)}px`;
+            sticker.style.top = `${getRandomPosition(window.innerHeight - sticker.clientHeight)}px`;
+        } : null;
+
+        sticker.addEventListener("loadeddata", () => {
+            if (stickerName.endsWith(".webm")) {
+                sticker.style.position = "absolute";
+                sticker.style.left = `${getRandomPosition(window.innerWidth - sticker.clientWidth)}px`;
+                sticker.style.top = `${getRandomPosition(window.innerHeight - sticker.clientHeight)}px`;
+            }
+        });
 
         stickerContainer.appendChild(sticker);
     }
 
-    // Load stickers with numbers 1 to 10 in multiple formats
-    for (let i = 1; i <= 10; i++) {
-        stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
-    }
+    window.onload = function () {
+        for (let i = 1; i <= 10; i++) {
+            stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
+        }
+    };
 });
