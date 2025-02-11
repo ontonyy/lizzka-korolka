@@ -50,9 +50,10 @@ button:hover {
     margin-top: 10px;
 }
 
-#sticker {
+.sticker {
     position: absolute;
-    width: 100px; /* Adjust size */
+    width: 100px; /* Adjust as needed */
     height: auto;
     z-index: 10;
+    pointer-events: none;
 }
