@@ -69,22 +69,21 @@ document.addEventListener("DOMContentLoaded", function () {
     let phraseIndex = 0;
 
     const phrases = [
-        "No",
-        "Are you sure?",
-        "What if I asked really nicely?",
-        "Pretty please",
-        "With a chocolate rice cake on top",
-        "What about a matcha frostie",
-        "PLEASE POOKIE",
-        "But :*(",
-        "I am going to die",
-        "Yep I'm dead",
-        "Ok, you're talking to Nathan's ghost",
-        "Please babe",
+        "ЧТО РЕАЛЬНО НЕТ??",
+        "Ты уверена?",
+        "Что если я спрошу по другому?",
+        "Ну пожааалуйста",
+        "Пару милка шоколадок, чокопай и макси кинг, всё равно нет?",
+        "Что на счёт пампкин фраппучино?",
+        "Пожалуйста чемпионка",
+        "Но блиинн :*(((",
+        "Я умру так :(((",
+        "Всё я умер",
+        "Ок, ты разговариваешь с призраком уже",
+        "Пожалуйста девушка",
         ":((((",
-        "PRETTY PLEASE",
-        "Estoy muerto",
-        "No :(",
+        "Прошу ну пожалуйста, одумайся",
+        "НЕТ :((((",
     ];
 
     noButton.addEventListener("click", function () {
@@ -96,8 +95,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     yesButton.addEventListener("click", function () {
-        textElement.innerText = "Yeeee I also love you so much!!!";
-        imageElement.src = "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif";
+        textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
+
+        // Replace the video with a new .webm video
+        const newVideo = document.createElement("video");
+        newVideo.classList.add("common-sticker");
+        newVideo.autoplay = true;
+        newVideo.loop = true;
+        newVideo.muted = true;
+        newVideo.playsInline = true;
+
+        const source = document.createElement("source");
+        source.src = "stickers/sticker1.webm"; // Replace with your final .webm file
+        source.type = "video/webm";
+
+        newVideo.appendChild(source);
+
+        // Replace the existing video
+        const container = document.querySelector(".container");
+        const oldVideo = document.getElementById("valentineVideo");
+        container.replaceChild(newVideo, oldVideo);
+
         document.querySelector(".buttons").remove();
     });
 });
