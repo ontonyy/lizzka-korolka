@@ -7,6 +7,8 @@ body {
 }
 
 .container {
+    position: relative; /* Ensure it's above stickers */
+    z-index: 100;
     max-width: 400px;
     margin: auto;
     padding: 20px;
@@ -15,45 +17,61 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.common-sticker {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.valentine-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e6005c;
+    margin-top: 20px;
 }
 
 button {
-    background: #ff4d79;
-    color: white;
     padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
     width: 100%;
+    transition: 0.2s ease-in-out;
 }
 
-button:hover {
-    background: #e6005c;
+#yesButton {
+    background: green;
+    color: white;
+    font-size: 16px;
 }
 
-.valentine-message {
-    font-size: 20px;
-    color: #e6005c;
-    margin-top: 20px;
+#yesButton:hover {
+    background: darkgreen;
 }
 
-.error {
-    color: red;
-    font-weight: bold;
-    margin-top: 10px;
+#noButton {
+    background: red;
+    color: white;
+    font-size: 16px;
+}
+
+#noButton:hover {
+    background: darkred;
 }
 
 .sticker {
     position: absolute;
-    width: 100px; /* Adjust as needed */
+    width: 100px;
     height: auto;
     z-index: 10;
     pointer-events: none;
+}
+
+.final-sticker {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
 }
