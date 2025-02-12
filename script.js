@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.onload = function () {
-        for (let i = 1; i <= 22; i++) {
+        for (let i = 1; i <= 29; i++) {
             stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
     };
@@ -88,10 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     noButton.addEventListener("click", function () {
-        if (phraseIndex < phrases.length) {
-            noButton.innerText = phrases[phraseIndex];
-            phraseIndex++;
-        }
+        noButton.innerText = phrases[phraseIndex]; // Update No button text
+        phraseIndex = (phraseIndex + 1) % phrases.length; // Loop back to start
 
         yesButtonSize += 5;
         yesButton.style.fontSize = `${yesButtonSize}px`;
