@@ -7,17 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const stickers = [];
     const stickerSize = 80; // Sticker size in pixels
-    const maxTries = 50; // Max attempts to find a non-overlapping position
+    const maxTries = 100; // Max attempts to find a non-overlapping position
+    const maxStickers = window.innerWidth < 600 ? 10 : 20; // Less stickers on small screens
 
     function getRandomPosition(max) {
-        return Math.floor(Math.random() * max);
+        return Math.floor(Math.random() * (max - stickerSize));
     }
 
     function isOverlapping(newX, newY) {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize; // Prevent overlap
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.2; // Ensure gap
         });
     }
 
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.loop = true;
             sticker.muted = true;
             sticker.playsInline = true;
+            sticker.style.backgroundColor = "transparent"; // Prevent black background
         }
 
         sticker.onerror = () => {
@@ -41,8 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let attempts = 0;
         let newX, newY;
         do {
-            newX = getRandomPosition(window.innerWidth - stickerSize);
-            newY = getRandomPosition(window.innerHeight - stickerSize);
+            newX = getRandomPosition(window.innerWidth);
+            newY = getRandomPosition(window.innerHeight - container.offsetHeight);
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
@@ -62,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.onload = function () {
-        for (let i = 1; i <= 15; i++) { // Reduced to 15 stickers for better spacing
+        for (let i = 1; i <= maxStickers; i++) {
             stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
     };
@@ -107,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
     yesButton.addEventListener("click", function () {
         textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
 
-        // Replace video with a new .webm file
         videoElement.innerHTML = `<source src="stickers/sticker1.webm" type="video/webm">`;
         videoElement.load();
         playVideo(videoElement);
