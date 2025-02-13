@@ -8,34 +8,34 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    height: 120vh; /* ✅ Increased height to allow more spacing */
     position: relative;
     overflow-x: hidden;
 }
 
-/* ✅ Main container stays at the top */
+/* ✅ Main container stays in place */
 .container {
     position: absolute;
-    top: 50px;
+    top: 30px; /* ✅ Keeps the main container position unchanged */
     left: 50%;
     transform: translateX(-50%);
     max-width: 90%;
     width: 360px;
-    padding: 15px;
+    padding: 20px;
     background: white;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* ✅ Stickers stay at the bottom */
+/* ✅ Stickers now appear LOWER (Increased the gap) */
 .sticker-container {
     position: absolute;
-    bottom: 0;
+    top: 600px; /* ✅ This increases the gap between main container and stickers */
     width: 100%;
-    height: 50vh; /* Stickers fill the bottom */
+    height: 30vh; /* ✅ Slightly adjusted height for balance */
     pointer-events: none;
 }
 
@@ -50,43 +50,47 @@ body {
     font-size: 22px;
     font-weight: bold;
     color: #e6005c;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 button {
-    padding: 14px;
+    padding: 16px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     transition: 0.2s ease-in-out;
     width: 100%;
     color: white;
 }
 
+/* ✅ Light green button */
 #yesButton {
-    background-color: green;
+    background-color: #90EE90; /* Light green */
+    color: #004d00;
 }
 
 #yesButton:hover {
-    background-color: darkgreen;
+    background-color: #77dd77;
 }
 
+/* ✅ Light pink button */
 #noButton {
-    background-color: red;
+    background-color: #FFB6C1; /* Light pink */
+    color: #660033;
 }
 
 #noButton:hover {
-    background-color: darkred;
+    background-color: #ff8fa3;
 }
 
 .sticker {

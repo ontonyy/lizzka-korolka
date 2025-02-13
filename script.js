@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const stickerFolder = "stickers/";
-    const stickerFormats = ["webm", "webp"];
+    const stickerFormats = ["jpg", "webp"];
     const container = document.querySelector(".container");
     const stickerContainer = document.querySelector(".sticker-container");
-    const videoElement = document.getElementById("valentineVideo");
+    const mainImage = document.getElementById("valentineImage"); // Changed from video to img
 
     const stickers = [];
     const stickerSize = window.innerWidth < 500 ? 60 : 80;
@@ -22,16 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addSticker(stickerName) {
-        const isVideo = stickerName.endsWith(".webm");
-        const sticker = document.createElement(isVideo ? "video" : "img");
+        const sticker = document.createElement("img");
         sticker.classList.add("sticker");
-
-        if (isVideo) {
-            sticker.setAttribute("autoplay", true);
-            sticker.setAttribute("loop", true);
-            sticker.setAttribute("muted", true);
-            sticker.setAttribute("playsinline", true);
-        }
 
         sticker.src = `${stickerFolder}${stickerName}`;
         sticker.onerror = () => sticker.remove();
@@ -39,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let newX, newY, attempts = 0;
         do {
             newX = getRandomPosition(window.innerWidth);
-            newY = getRandomPosition(window.innerHeight * 0.4);
+            newY = getRandomPosition(window.innerHeight * 0.3);
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < 100);
 
@@ -51,21 +43,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function reloadStickers() {
-        // Clear existing stickers
         stickerContainer.innerHTML = "";
         stickers.length = 0;
 
-        // Add new stickers
         for (let i = 1; i <= maxStickers; i++) {
             stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
     }
 
     window.onload = reloadStickers;
-
-    document.body.addEventListener("click", function () {
-        videoElement.play().catch(() => console.warn("Autoplay blocked"));
-    }, { once: true });
 
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
@@ -99,21 +85,19 @@ document.addEventListener("DOMContentLoaded", function () {
         yesButtonSize += 5;
         yesButton.style.fontSize = `${yesButtonSize}px`;
 
-        reloadStickers(); // Reload stickers on "No" button click
+        reloadStickers();
     });
 
     yesButton.addEventListener("click", function () {
         textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
 
-        videoElement.innerHTML = `<source src="stickers/sticker1.webm" type="video/webm">`;
-        videoElement.load();
-        videoElement.play();
+        // ✅ Change the main image instead of loading a video
+        mainImage.src = "stickers/sticker3.webp";
 
         document.querySelector(".buttons").remove();
 
-        reloadStickers(); // Reload stickers on "Yes" button click
+        reloadStickers();
 
-        // ✅ Add new button after "ДА"
         const newButton = document.createElement("button");
         newButton.innerText = "💗 Открыть подарок 💗";
         newButton.id = "surpriseButton";
@@ -129,15 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         container.appendChild(newButton);
 
-        // ✅ Play "beautiful.mov" when clicked
         newButton.addEventListener("click", function () {
             textElement.innerText = "Подарок это ты!!! 💞🎀";
 
-            videoElement.innerHTML = `<source src="stickers/images/beautiful.mov" type="video/mp4">`;
-            videoElement.load();
-            videoElement.play();
+            // ✅ Display a JPG image instead of playing a video
+            mainImage.src = "stickers/images/beauty18.jpg";
 
-            newButton.remove(); // ✅ Remove the button after clicking
+            newButton.remove();
         });
     });
 });
