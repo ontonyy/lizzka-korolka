@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoElement = document.getElementById("valentineVideo");
 
     const stickers = [];
-    const stickerSize = 100;
-    const maxTries = 50;
-    const maxStickers = window.innerWidth < 600 ? 10 : 20;
+    const stickerSize = 80; // Reduced size for better fit
+    const maxTries = 100;
+    const maxStickers = 29; // Ensure all 29 stickers appear
 
     function getRandomPosition(max, padding = 0) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.2;
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5;
         });
     }
 
@@ -47,13 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let newX, newY;
         do {
             newX = getRandomPosition(window.innerWidth, 20);
-            newY = getRandomPosition(window.innerHeight / 2, 20);
+            newY = getRandomPosition(window.innerHeight * 0.45, 20); // Place stickers in top 45% of screen
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
         if (attempts >= maxTries) {
             newX = getRandomPosition(window.innerWidth);
-            newY = getRandomPosition(window.innerHeight / 2);
+            newY = getRandomPosition(window.innerHeight * 0.45);
         }
 
         stickers.push({ x: newX, y: newY });
@@ -76,8 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.onload = function () {
-        for (let i = 1; i <= maxStickers; i++) {
-            stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
+        let stickerIndex = 1;
+        while (stickerIndex <= maxStickers) {
+            stickerFormats.forEach(format => addSticker(`sticker${stickerIndex}.${format}`));
+            stickerIndex++;
         }
     };
 

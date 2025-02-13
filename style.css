@@ -18,7 +18,7 @@ body {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100vh;
+    height: 50vh; /* Stickers appear in the top half */
     pointer-events: none;
 }
 
@@ -69,8 +69,29 @@ button {
     font-weight: bold;
     transition: 0.2s ease-in-out;
     width: 100%;
+    color: white; /* Ensures text is white */
 }
 
+/* ✅ Fixing Grey Buttons by Explicitly Defining Background Color */
+#yesButton {
+    background-color: green;
+    color: white;
+}
+
+#yesButton:hover {
+    background-color: darkgreen;
+}
+
+#noButton {
+    background-color: red;
+    color: white;
+}
+
+#noButton:hover {
+    background-color: darkred;
+}
+
+/* Ensures stickers are visible */
 .sticker {
     position: absolute;
     width: 80px;
