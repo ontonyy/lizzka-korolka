@@ -5,10 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerContainer = document.body;
     const videoElement = document.getElementById("valentineVideo");
 
+    // Create an extended area at the bottom
+    const extendedArea = document.createElement("div");
+    extendedArea.id = "extended-area";
+    document.body.appendChild(extendedArea);
+
     const stickers = [];
-    const stickerSize = 100; // Increased for better spacing
-    const maxTries = 200; // More attempts for proper placement
-    const maxStickers = window.innerWidth < 600 ? 8 : 15; // Fewer stickers on mobile
+    const stickerSize = 100;
+    const maxTries = 200;
+    const pageHeight = document.body.scrollHeight;
+    const maxStickers = window.innerWidth < 600 ? 15 : 30; // More stickers for larger screens
 
     function getRandomPosition(max, padding = 0) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
@@ -18,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5; // Increased buffer
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5;
         });
     }
 
@@ -32,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.loop = true;
             sticker.muted = true;
             sticker.playsInline = true;
-            sticker.style.backgroundColor = "transparent"; // Ensure no black background
+            sticker.style.backgroundColor = "transparent";
         }
 
         sticker.onerror = () => {
@@ -44,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let newX, newY;
         do {
             newX = getRandomPosition(window.innerWidth, 20);
-            newY = getRandomPosition(window.innerHeight - container.offsetHeight, 20);
+            newY = getRandomPosition(pageHeight, 20);
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
