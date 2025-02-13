@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     const stickerFolder = "stickers/";
-    const stickerContainer = document.body;
     const stickerFormats = ["webm", "webp", "tgs"];
     const container = document.querySelector(".container");
+    const stickerContainer = document.body;
+    const videoElement = document.getElementById("valentineVideo");
 
-    function getRandomPosition(max, safeStart, safeEnd) {
+    function getRandomPosition(max, containerStart, containerEnd) {
         let pos;
         do {
             pos = Math.floor(Math.random() * max);
-        } while (pos >= safeStart && pos <= safeEnd);
+        } while (pos >= containerStart && pos <= containerEnd);
         return pos;
     }
 
@@ -31,15 +32,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         sticker.onload = () => {
             const containerRect = container.getBoundingClientRect();
-            const safeTopStart = containerRect.top - 100; // Extra padding
-            const safeTopEnd = containerRect.bottom + 50;
+            const safeTopStart = containerRect.top + 50; // Padding so stickers don't overlap
+            const safeTopEnd = containerRect.bottom - 50;
 
             sticker.style.position = "absolute";
-            sticker.style.left = `${getRandomPosition(window.innerWidth - 100, containerRect.left, containerRect.right)}px`;
-            sticker.style.top = `${getRandomPosition(window.innerHeight - 100, safeTopStart, safeTopEnd)}px`;
+            sticker.style.left = `${getRandomPosition(window.innerWidth - 80, containerRect.left, containerRect.right)}px`;
+            sticker.style.top = `${getRandomPosition(window.innerHeight - 80, safeTopStart, safeTopEnd)}px`;
         };
 
         stickerContainer.appendChild(sticker);
+    }
+
+    function playVideo(video) {
+        video.play().catch(error => {
+            console.warn("Autoplay blocked, waiting for user interaction.");
+        });
     }
 
     window.onload = function () {
@@ -48,10 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    // Ensure video plays when the user interacts with the page (for mobile)
+    document.body.addEventListener("click", function () {
+        playVideo(videoElement);
+    }, { once: true });
+
+    // Handle button clicks
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
     const textElement = document.getElementById("valentineText");
-    const videoElement = document.getElementById("valentineVideo");
 
     let yesButtonSize = 16;
     let phraseIndex = 0;
@@ -59,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const phrases = [
         "ЧТО РЕАЛЬНО НЕТ??",
         "Ты уверена?",
-        "Что если я спрошу по другому?",
+        "Что если я спрошу по-другому?",
         "Ну пожааалуйста",
         "Пару милка шоколадок, чокопай и макси кинг, всё равно нет?",
         "Что на счёт пампкин фраппучино?",
@@ -73,12 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "Прошу ну пожалуйста, одумайся",
         "НЕТ :((((",
     ];
-
-    function playVideo(video) {
-        video.play().catch(error => {
-            console.warn("Autoplay blocked, requiring user interaction");
-        });
-    }
 
     noButton.addEventListener("click", function () {
         noButton.innerText = phrases[phraseIndex]; // Update No button text
@@ -98,9 +104,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelector(".buttons").remove();
     });
-
-    // Autoplay fix for mobile devices
-    document.body.addEventListener("click", function () {
-        playVideo(videoElement);
-    }, { once: true });
 });
