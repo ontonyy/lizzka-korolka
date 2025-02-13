@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerContainer = document.body;
     const videoElement = document.getElementById("valentineVideo");
 
-    // Create an extended area at the bottom
+    // Create an extended area at the bottom for more stickers
     const extendedArea = document.createElement("div");
     extendedArea.id = "extended-area";
     document.body.appendChild(extendedArea);
@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickers = [];
     const stickerSize = 100;
     const maxTries = 200;
-    const pageHeight = document.body.scrollHeight;
-    const maxStickers = window.innerWidth < 600 ? 15 : 30; // More stickers for larger screens
+    const pageHeight = document.body.scrollHeight + window.innerHeight; // More height
+    const maxStickers = window.innerWidth < 600 ? 12 : 25; // Reduce stickers for small screens
 
     function getRandomPosition(max, padding = 0) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5;
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5; // Prevent overlap
         });
     }
 
@@ -39,6 +39,11 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.muted = true;
             sticker.playsInline = true;
             sticker.style.backgroundColor = "transparent";
+
+            // Fix autoplay issue
+            sticker.oncanplay = () => {
+                sticker.play().catch(() => console.warn("Autoplay blocked for sticker", stickerName));
+            };
         }
 
         sticker.onerror = () => {
@@ -77,6 +82,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.addEventListener("click", function () {
         playVideo(videoElement);
+
+        // Fix for all WebM stickers (force play on interaction)
+        document.querySelectorAll("video.sticker").forEach(video => {
+            video.play().catch(() => console.warn("Sticker autoplay blocked"));
+        });
     }, { once: true });
 
     const yesButton = document.getElementById("yesButton");

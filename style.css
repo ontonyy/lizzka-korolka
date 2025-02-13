@@ -77,7 +77,6 @@ button {
     background: darkred;
 }
 
-/* Stickers now span across both main and extended sections */
 .sticker {
     position: absolute;
     width: 80px;
@@ -88,11 +87,10 @@ button {
     animation: fade-in 0.5s ease-in-out;
 }
 
-/* Extra section below for more stickers */
 #extended-area {
     position: relative;
     width: 100%;
-    height: 200vh; /* Double the page height */
+    height: 200vh; /* Expand the page for more stickers */
 }
 
 @keyframes fade-in {
