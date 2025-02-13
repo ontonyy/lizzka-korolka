@@ -119,9 +119,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showImageSequence(button) {
         const imageSequence = [
-            { src: "stickers/images/beauty18.jpg", text: "Сюрприз для тебя 💖" },
-            { src: "stickers/images/beauty-photo.jpg", text: "Это правда ты" },
-            { src: "stickers/images/beauty-teacher.jpg", text: "Нет, я не вру!!" }
+            { src: "stickers/images/beauty18.jpg", text: "Подарок это ты!!! 💓💓💓" },
+            { src: "stickers/images/beauty-photo.jpg", text: "Да, да, правда ты 💗🎀" },
+            { src: "stickers/images/beauty-teacher.jpg", text: "Нет, я не вру!💞💞💞!" }
         ];
 
         const sequenceContainer = document.createElement("div");
