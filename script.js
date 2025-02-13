@@ -50,11 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
         stickerContainer.appendChild(sticker);
     }
 
-    window.onload = function () {
+    function reloadStickers() {
+        // Clear existing stickers
+        stickerContainer.innerHTML = "";
+        stickers.length = 0;
+
+        // Add new stickers
         for (let i = 1; i <= maxStickers; i++) {
             stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
-    };
+    }
+
+    window.onload = reloadStickers;
 
     document.body.addEventListener("click", function () {
         videoElement.play().catch(() => console.warn("Autoplay blocked"));
@@ -91,6 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         yesButtonSize += 5;
         yesButton.style.fontSize = `${yesButtonSize}px`;
+
+        reloadStickers(); // Reload stickers on "No" button click
     });
 
     yesButton.addEventListener("click", function () {
@@ -101,5 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
         videoElement.play();
 
         document.querySelector(".buttons").remove();
+
+        reloadStickers(); // Reload stickers on "Yes" button click
     });
 });

@@ -8,23 +8,15 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: auto;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
     overflow-x: hidden;
 }
 
-.sticker-container {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 50vh; /* Stickers appear in the top half */
-    pointer-events: none;
-}
-
+/* ✅ Main container stays at the top */
 .container {
     position: absolute;
-    bottom: 10px;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     max-width: 90%;
@@ -36,6 +28,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* ✅ Stickers stay at the bottom */
+.sticker-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50vh; /* Stickers fill the bottom */
+    pointer-events: none;
 }
 
 .common-sticker {
