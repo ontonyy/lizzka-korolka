@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerFormats = ["jpg", "webp"];
     const container = document.querySelector(".container");
     const stickerContainer = document.querySelector(".sticker-container");
-    const mainImage = document.getElementById("valentineImage"); // Changed from video to img
+    const mainImage = document.getElementById("valentineImage");
 
     const stickers = [];
     const stickerSize = window.innerWidth < 500 ? 60 : 80;
@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
     yesButton.addEventListener("click", function () {
         textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
 
-        // ✅ Change the main image instead of loading a video
         mainImage.src = "stickers/sticker3.webp";
 
         document.querySelector(".buttons").remove();
@@ -114,12 +113,59 @@ document.addEventListener("DOMContentLoaded", function () {
         container.appendChild(newButton);
 
         newButton.addEventListener("click", function () {
-            textElement.innerText = "Подарок это ты!!! 💞🎀";
-
-            // ✅ Display a JPG image instead of playing a video
-            mainImage.src = "stickers/images/beauty18.jpg";
-
-            newButton.remove();
+            showImageSequence(newButton);
         });
     });
+
+    function showImageSequence(button) {
+        const imageSequence = [
+            { src: "stickers/images/beauty18.jpg", text: "Сюрприз для тебя 💖" },
+            { src: "stickers/images/beauty-photo.jpg", text: "Это правда ты" },
+            { src: "stickers/images/beauty-teacher.jpg", text: "Нет, я не вру!!" }
+        ];
+
+        const sequenceContainer = document.createElement("div");
+        sequenceContainer.id = "sequence-container";
+        sequenceContainer.style.width = "100%";
+        sequenceContainer.style.marginTop = "20px";
+        sequenceContainer.style.display = "flex";
+        sequenceContainer.style.flexDirection = "column";
+        sequenceContainer.style.alignItems = "center";
+
+        // ✅ Append images below `.container`
+        container.appendChild(sequenceContainer);
+        button.remove(); // Remove button after clicking
+
+        let currentIndex = 0;
+
+        function addNextImage() {
+            if (currentIndex < imageSequence.length) {
+                const imgContainer = document.createElement("div");
+                imgContainer.style.marginBottom = "30px";
+                imgContainer.style.textAlign = "center";
+
+                const imgText = document.createElement("h2");
+                imgText.innerText = imageSequence[currentIndex].text;
+                imgText.style.color = "#e6005c";
+                imgText.style.fontSize = "22px";
+                imgText.style.marginBottom = "10px";
+
+                const imgElement = document.createElement("img");
+                imgElement.src = imageSequence[currentIndex].src;
+                imgElement.style.width = "80%";
+                imgElement.style.borderRadius = "10px";
+                imgElement.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.2)";
+
+                imgContainer.appendChild(imgText);
+                imgContainer.appendChild(imgElement);
+                sequenceContainer.appendChild(imgContainer);
+
+                currentIndex++;
+
+                setTimeout(addNextImage, 2000); // Show next image every 2 seconds
+            }
+        }
+
+        addNextImage();
+    }
 });
