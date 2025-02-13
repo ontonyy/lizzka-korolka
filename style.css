@@ -83,7 +83,7 @@ button {
     height: auto;
     z-index: 10;
     pointer-events: none;
-    background-color: transparent; /* Prevent black background */
+    background: transparent; /* Ensures WebM stickers do not appear black */
     animation: fade-in 0.5s ease-in-out;
 }
 

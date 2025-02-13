@@ -6,19 +6,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoElement = document.getElementById("valentineVideo");
 
     const stickers = [];
-    const stickerSize = 80; // Sticker size in pixels
-    const maxTries = 100; // Max attempts to find a non-overlapping position
-    const maxStickers = window.innerWidth < 600 ? 10 : 20; // Less stickers on small screens
+    const stickerSize = 100; // Increased for better spacing
+    const maxTries = 200; // More attempts for proper placement
+    const maxStickers = window.innerWidth < 600 ? 8 : 15; // Fewer stickers on mobile
 
-    function getRandomPosition(max) {
-        return Math.floor(Math.random() * (max - stickerSize));
+    function getRandomPosition(max, padding = 0) {
+        return Math.floor(Math.random() * (max - stickerSize - padding));
     }
 
     function isOverlapping(newX, newY) {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.2; // Ensure gap
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5; // Increased buffer
         });
     }
 
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.loop = true;
             sticker.muted = true;
             sticker.playsInline = true;
-            sticker.style.backgroundColor = "transparent"; // Prevent black background
+            sticker.style.backgroundColor = "transparent"; // Ensure no black background
         }
 
         sticker.onerror = () => {
@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let attempts = 0;
         let newX, newY;
         do {
-            newX = getRandomPosition(window.innerWidth);
-            newY = getRandomPosition(window.innerHeight - container.offsetHeight);
+            newX = getRandomPosition(window.innerWidth, 20);
+            newY = getRandomPosition(window.innerHeight - container.offsetHeight, 20);
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
