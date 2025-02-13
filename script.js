@@ -2,15 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerFolder = "stickers/";
     const stickerFormats = ["webm", "webp", "tgs"];
     const container = document.querySelector(".container");
-    const stickerContainer = document.createElement("div");
-    stickerContainer.classList.add("sticker-container");
-    document.body.appendChild(stickerContainer);
+    const stickerContainer = document.querySelector(".sticker-container");
     const videoElement = document.getElementById("valentineVideo");
 
     const stickers = [];
     const stickerSize = 100;
     const maxTries = 50;
-    const maxStickers = window.innerWidth < 600 ? 10 : 20; // More stickers for larger screens
+    const maxStickers = window.innerWidth < 600 ? 10 : 20;
 
     function getRandomPosition(max, padding = 0) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
@@ -25,21 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addSticker(stickerName) {
-        const sticker = document.createElement(stickerName.endsWith(".webm") ? "video" : "img");
-        sticker.src = `${stickerFolder}${stickerName}`;
+        const isVideo = stickerName.endsWith(".webm");
+        const sticker = document.createElement(isVideo ? "video" : "img");
         sticker.classList.add("sticker");
 
-        if (stickerName.endsWith(".webm")) {
-            sticker.autoplay = true;
-            sticker.loop = true;
-            sticker.muted = true;
-            sticker.playsInline = true;
+        if (isVideo) {
+            sticker.setAttribute("autoplay", true);
+            sticker.setAttribute("loop", true);
+            sticker.setAttribute("muted", true);
+            sticker.setAttribute("playsinline", true);
+            sticker.setAttribute("poster", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABpIrGQAAAACVBMVEX////MzMz////tOhMtAAAADUlEQVR4AWOgDhgAAAEWAAUOuHZIAAAAAElFTkSuQmCC");
             sticker.style.backgroundColor = "transparent";
-
-            sticker.oncanplay = () => {
-                sticker.play().catch(() => console.warn("Autoplay blocked for sticker", stickerName));
-            };
         }
+
+        sticker.src = `${stickerFolder}${stickerName}`;
 
         sticker.onerror = () => {
             console.warn(`Sticker ${stickerName} failed to load and will be removed.`);
@@ -50,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let newX, newY;
         do {
             newX = getRandomPosition(window.innerWidth, 20);
-            newY = getRandomPosition(window.innerHeight / 2, 20); // Stickers only at the top half
+            newY = getRandomPosition(window.innerHeight / 2, 20);
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
@@ -64,6 +61,12 @@ document.addEventListener("DOMContentLoaded", function () {
         sticker.style.left = `${newX}px`;
         sticker.style.top = `${newY}px`;
         stickerContainer.appendChild(sticker);
+
+        if (isVideo) {
+            sticker.addEventListener("canplay", () => {
+                sticker.play().catch(() => console.warn("Autoplay blocked for sticker", stickerName));
+            });
+        }
     }
 
     function playVideo(video) {

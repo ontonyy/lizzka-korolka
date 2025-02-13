@@ -11,20 +11,20 @@ body {
     height: auto;
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden;
 }
 
 .sticker-container {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100vh; /* Ensures stickers appear at the top */
+    height: 100vh;
     pointer-events: none;
 }
 
 .container {
     position: absolute;
-    bottom: 10px; /* Ensures it's at the bottom */
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     max-width: 90%;
@@ -69,24 +69,6 @@ button {
     font-weight: bold;
     transition: 0.2s ease-in-out;
     width: 100%;
-}
-
-#yesButton {
-    background: green;
-    color: white;
-}
-
-#yesButton:hover {
-    background: darkgreen;
-}
-
-#noButton {
-    background: red;
-    color: white;
-}
-
-#noButton:hover {
-    background: darkred;
 }
 
 .sticker {
