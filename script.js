@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoElement = document.getElementById("valentineVideo");
 
     const stickers = [];
-    const stickerSize = window.innerWidth < 500 ? 60 : 80; // Smaller stickers on mobile
+    const stickerSize = window.innerWidth < 500 ? 60 : 80;
     const maxStickers = 29;
 
     function getRandomPosition(max, padding = 10) {
@@ -112,5 +112,32 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".buttons").remove();
 
         reloadStickers(); // Reload stickers on "Yes" button click
+
+        // ✅ Add new button after "ДА"
+        const newButton = document.createElement("button");
+        newButton.innerText = "💗 Открыть подарок 💗";
+        newButton.id = "surpriseButton";
+        newButton.style.marginTop = "20px";
+        newButton.style.padding = "14px";
+        newButton.style.borderRadius = "8px";
+        newButton.style.fontSize = "18px";
+        newButton.style.fontWeight = "bold";
+        newButton.style.cursor = "pointer";
+        newButton.style.backgroundColor = "purple";
+        newButton.style.color = "white";
+        newButton.style.border = "none";
+
+        container.appendChild(newButton);
+
+        // ✅ Play "beautiful.mov" when clicked
+        newButton.addEventListener("click", function () {
+            textElement.innerText = "Подарок это ты!!! 💞🎀";
+
+            videoElement.innerHTML = `<source src="stickers/images/beautiful.mov" type="video/mp4">`;
+            videoElement.load();
+            videoElement.play();
+
+            newButton.remove(); // ✅ Remove the button after clicking
+        });
     });
 });
