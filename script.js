@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let yesButtonSize = 16;
     let phraseIndex = 0;
+    let yesPhraseIndex = 0;
 
     const phrases = [
         "ЧТО РЕАЛЬНО НЕТ??",
@@ -76,11 +77,29 @@ document.addEventListener("DOMContentLoaded", function () {
         ":((((",
         "Прошу ну пожалуйста, одумайся",
         "НЕТ :((((",
+        "Я расстроен",
+        "Нет это грустно",
+        "НЕТ :((((",
+        "Я дурею если нет",
+    ];
+
+    const yesPhrases = [
+        "Может всё таки да",
+        "ну да хороший ответ",
+        "ДА ДА И ДА?",
+        "СТО ПРОЦЕНТОВ",
+        "миллион процентов",
+        "Офкорс да",
+        "ДААААА",
+        "ОУЕС",
     ];
 
     noButton.addEventListener("click", function () {
         noButton.innerText = phrases[phraseIndex];
         phraseIndex = (phraseIndex + 1) % phrases.length;
+
+        yesButton.innerText = yesPhrases[yesPhraseIndex];
+        yesPhraseIndex = (yesPhraseIndex + 1) % yesPhrases.length;
 
         yesButtonSize += 5;
         yesButton.style.fontSize = `${yesButtonSize}px`;
