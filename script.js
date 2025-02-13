@@ -29,27 +29,15 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.remove();
         };
 
-        sticker.onload = stickerName.endsWith(".webp") || stickerName.endsWith(".tgs") ? () => {
+        sticker.onload = () => {
             const containerRect = container.getBoundingClientRect();
-            const safeTopStart = containerRect.top;
-            const safeTopEnd = containerRect.bottom;
+            const safeTopStart = containerRect.top - 100; // Extra padding
+            const safeTopEnd = containerRect.bottom + 50;
 
             sticker.style.position = "absolute";
-            sticker.style.left = `${getRandomPosition(window.innerWidth - sticker.clientWidth, containerRect.left, containerRect.right)}px`;
-            sticker.style.top = `${getRandomPosition(window.innerHeight - sticker.clientHeight, safeTopStart, safeTopEnd)}px`;
-        } : null;
-
-        sticker.addEventListener("loadeddata", () => {
-            if (stickerName.endsWith(".webm")) {
-                const containerRect = container.getBoundingClientRect();
-                const safeTopStart = containerRect.top;
-                const safeTopEnd = containerRect.bottom;
-
-                sticker.style.position = "absolute";
-                sticker.style.left = `${getRandomPosition(window.innerWidth - sticker.clientWidth, containerRect.left, containerRect.right)}px`;
-                sticker.style.top = `${getRandomPosition(window.innerHeight - sticker.clientHeight, safeTopStart, safeTopEnd)}px`;
-            }
-        });
+            sticker.style.left = `${getRandomPosition(window.innerWidth - 100, containerRect.left, containerRect.right)}px`;
+            sticker.style.top = `${getRandomPosition(window.innerHeight - 100, safeTopStart, safeTopEnd)}px`;
+        };
 
         stickerContainer.appendChild(sticker);
     }
@@ -63,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
     const textElement = document.getElementById("valentineText");
-    const imageElement = document.getElementById("valentineImage");
+    const videoElement = document.getElementById("valentineVideo");
 
     let yesButtonSize = 16;
     let phraseIndex = 0;
@@ -86,6 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "НЕТ :((((",
     ];
 
+    function playVideo(video) {
+        video.play().catch(error => {
+            console.warn("Autoplay blocked, requiring user interaction");
+        });
+    }
+
     noButton.addEventListener("click", function () {
         noButton.innerText = phrases[phraseIndex]; // Update No button text
         phraseIndex = (phraseIndex + 1) % phrases.length; // Loop back to start
@@ -97,25 +91,16 @@ document.addEventListener("DOMContentLoaded", function () {
     yesButton.addEventListener("click", function () {
         textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
 
-        // Replace the video with a new .webm video
-        const newVideo = document.createElement("video");
-        newVideo.classList.add("common-sticker");
-        newVideo.autoplay = true;
-        newVideo.loop = true;
-        newVideo.muted = true;
-        newVideo.playsInline = true;
-
-        const source = document.createElement("source");
-        source.src = "stickers/sticker1.webm"; // Replace with your final .webm file
-        source.type = "video/webm";
-
-        newVideo.appendChild(source);
-
-        // Replace the existing video
-        const container = document.querySelector(".container");
-        const oldVideo = document.getElementById("valentineVideo");
-        container.replaceChild(newVideo, oldVideo);
+        // Replace video with a new .webm file
+        videoElement.innerHTML = `<source src="stickers/sticker1.webm" type="video/webm">`;
+        videoElement.load();
+        playVideo(videoElement);
 
         document.querySelector(".buttons").remove();
     });
+
+    // Autoplay fix for mobile devices
+    document.body.addEventListener("click", function () {
+        playVideo(videoElement);
+    }, { once: true });
 });
