@@ -5,12 +5,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerContainer = document.body;
     const videoElement = document.getElementById("valentineVideo");
 
-    function getRandomPosition(max, containerStart, containerEnd) {
-        let pos;
-        do {
-            pos = Math.floor(Math.random() * max);
-        } while (pos >= containerStart && pos <= containerEnd);
-        return pos;
+    const stickers = [];
+    const stickerSize = 80; // Sticker size in pixels
+    const maxTries = 50; // Max attempts to find a non-overlapping position
+
+    function getRandomPosition(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function isOverlapping(newX, newY) {
+        return stickers.some(sticker => {
+            const dx = sticker.x - newX;
+            const dy = sticker.y - newY;
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize; // Prevent overlap
+        });
     }
 
     function addSticker(stickerName) {
@@ -30,37 +38,39 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.remove();
         };
 
-        sticker.onload = () => {
-            const containerRect = container.getBoundingClientRect();
-            const safeTopStart = containerRect.top + 50; // Padding so stickers don't overlap
-            const safeTopEnd = containerRect.bottom - 50;
+        let attempts = 0;
+        let newX, newY;
+        do {
+            newX = getRandomPosition(window.innerWidth - stickerSize);
+            newY = getRandomPosition(window.innerHeight - stickerSize);
+            attempts++;
+        } while (isOverlapping(newX, newY) && attempts < maxTries);
 
+        if (attempts < maxTries) {
+            stickers.push({ x: newX, y: newY });
             sticker.style.position = "absolute";
-            sticker.style.left = `${getRandomPosition(window.innerWidth - 80, containerRect.left, containerRect.right)}px`;
-            sticker.style.top = `${getRandomPosition(window.innerHeight - 80, safeTopStart, safeTopEnd)}px`;
-        };
-
-        stickerContainer.appendChild(sticker);
+            sticker.style.left = `${newX}px`;
+            sticker.style.top = `${newY}px`;
+            stickerContainer.appendChild(sticker);
+        }
     }
 
     function playVideo(video) {
-        video.play().catch(error => {
-            console.warn("Autoplay blocked, waiting for user interaction.");
+        video.play().catch(() => {
+            console.warn("Autoplay blocked, requiring user interaction.");
         });
     }
 
     window.onload = function () {
-        for (let i = 1; i <= 29; i++) {
+        for (let i = 1; i <= 15; i++) { // Reduced to 15 stickers for better spacing
             stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
     };
 
-    // Ensure video plays when the user interacts with the page (for mobile)
     document.body.addEventListener("click", function () {
         playVideo(videoElement);
     }, { once: true });
 
-    // Handle button clicks
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
     const textElement = document.getElementById("valentineText");
@@ -87,8 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     noButton.addEventListener("click", function () {
-        noButton.innerText = phrases[phraseIndex]; // Update No button text
-        phraseIndex = (phraseIndex + 1) % phrases.length; // Loop back to start
+        noButton.innerText = phrases[phraseIndex];
+        phraseIndex = (phraseIndex + 1) % phrases.length;
 
         yesButtonSize += 5;
         yesButton.style.fontSize = `${yesButtonSize}px`;

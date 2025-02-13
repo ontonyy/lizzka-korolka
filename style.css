@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden; /* Prevent scrolling issues on mobile */
+    overflow: hidden; /* Prevent scrolling on mobile */
 }
 
 .container {
@@ -94,7 +94,7 @@ button {
     margin: 20px auto;
 }
 
-/* Smoothly animate stickers appearing */
+/* Prevent stickers from appearing in the same place */
 @keyframes fade-in {
     from {
         opacity: 0;
