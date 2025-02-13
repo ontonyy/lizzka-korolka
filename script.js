@@ -1,16 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     const stickerFolder = "stickers/";
-    const stickerFormats = ["webm", "webp", "tgs"];
+    const stickerFormats = ["webm", "webp"];
     const container = document.querySelector(".container");
     const stickerContainer = document.querySelector(".sticker-container");
     const videoElement = document.getElementById("valentineVideo");
 
     const stickers = [];
-    const stickerSize = 80; // Reduced size for better fit
-    const maxTries = 100;
-    const maxStickers = 29; // Ensure all 29 stickers appear
+    const stickerSize = window.innerWidth < 500 ? 60 : 80; // Smaller stickers on mobile
+    const maxStickers = 29;
 
-    function getRandomPosition(max, padding = 0) {
+    function getRandomPosition(max, padding = 10) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
     }
 
@@ -32,63 +31,33 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.setAttribute("loop", true);
             sticker.setAttribute("muted", true);
             sticker.setAttribute("playsinline", true);
-            sticker.setAttribute("poster", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABpIrGQAAAACVBMVEX////MzMz////tOhMtAAAADUlEQVR4AWOgDhgAAAEWAAUOuHZIAAAAAElFTkSuQmCC");
-            sticker.style.backgroundColor = "transparent";
         }
 
         sticker.src = `${stickerFolder}${stickerName}`;
+        sticker.onerror = () => sticker.remove();
 
-        sticker.onerror = () => {
-            console.warn(`Sticker ${stickerName} failed to load and will be removed.`);
-            sticker.remove();
-        };
-
-        let attempts = 0;
-        let newX, newY;
+        let newX, newY, attempts = 0;
         do {
-            newX = getRandomPosition(window.innerWidth, 20);
-            newY = getRandomPosition(window.innerHeight * 0.45, 20); // Place stickers in top 45% of screen
-            attempts++;
-        } while (isOverlapping(newX, newY) && attempts < maxTries);
-
-        if (attempts >= maxTries) {
             newX = getRandomPosition(window.innerWidth);
-            newY = getRandomPosition(window.innerHeight * 0.45);
-        }
+            newY = getRandomPosition(window.innerHeight * 0.4);
+            attempts++;
+        } while (isOverlapping(newX, newY) && attempts < 100);
 
         stickers.push({ x: newX, y: newY });
         sticker.style.position = "absolute";
         sticker.style.left = `${newX}px`;
         sticker.style.top = `${newY}px`;
         stickerContainer.appendChild(sticker);
-
-        if (isVideo) {
-            sticker.addEventListener("canplay", () => {
-                sticker.play().catch(() => console.warn("Autoplay blocked for sticker", stickerName));
-            });
-        }
-    }
-
-    function playVideo(video) {
-        video.play().catch(() => {
-            console.warn("Autoplay blocked, requiring user interaction.");
-        });
     }
 
     window.onload = function () {
-        let stickerIndex = 1;
-        while (stickerIndex <= maxStickers) {
-            stickerFormats.forEach(format => addSticker(`sticker${stickerIndex}.${format}`));
-            stickerIndex++;
+        for (let i = 1; i <= maxStickers; i++) {
+            stickerFormats.forEach(format => addSticker(`sticker${i}.${format}`));
         }
     };
 
     document.body.addEventListener("click", function () {
-        playVideo(videoElement);
-
-        document.querySelectorAll("video.sticker").forEach(video => {
-            video.play().catch(() => console.warn("Sticker autoplay blocked"));
-        });
+        videoElement.play().catch(() => console.warn("Autoplay blocked"));
     }, { once: true });
 
     const yesButton = document.getElementById("yesButton");
@@ -129,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         videoElement.innerHTML = `<source src="stickers/sticker1.webm" type="video/webm">`;
         videoElement.load();
-        playVideo(videoElement);
+        videoElement.play();
 
         document.querySelector(".buttons").remove();
     });

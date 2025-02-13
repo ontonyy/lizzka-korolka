@@ -69,13 +69,11 @@ button {
     font-weight: bold;
     transition: 0.2s ease-in-out;
     width: 100%;
-    color: white; /* Ensures text is white */
+    color: white;
 }
 
-/* ✅ Fixing Grey Buttons by Explicitly Defining Background Color */
 #yesButton {
     background-color: green;
-    color: white;
 }
 
 #yesButton:hover {
@@ -84,14 +82,12 @@ button {
 
 #noButton {
     background-color: red;
-    color: white;
 }
 
 #noButton:hover {
     background-color: darkred;
 }
 
-/* Ensures stickers are visible */
 .sticker {
     position: absolute;
     width: 80px;
