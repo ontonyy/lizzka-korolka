@@ -33,7 +33,7 @@ body {
 .sticker-container {
     width: 100%;
     height: auto;
-    margin-top: 100px; /* ✅ Ensures 200px gap below the container */
+    margin-top: 10px; /* ✅ Ensures 200px gap below the container */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
