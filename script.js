@@ -139,8 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function showImageSequence(button) {
         const imageSequence = [
             { src: "stickers/images/beauty18.jpg", text: "Подарок это ты!!! 💓💓💓" },
-            { src: "stickers/images/beauty-photo.jpg", text: "Да, да, правда ты 💗🎀" },
-            { src: "stickers/images/beauty-teacher.jpg", text: "Нет, я не вру!💞💞💞!" }
+            { src: "stickers/images/beauty-photo.jpg", text: "💗🎀 ДА И ДА, ПРАВДА ТЫ 💗🎀" },
+            { src: "stickers/images/beauty-beach.jpg", text: "Нет, я не вру!!!💞💞💞!" },
+            { src: "stickers/images/beauty-teacher.jpg", text: "Как можно врать когда ты такая красотка 💗🎀💗🎀💗🎀" },
+            { src: "stickers/images/beauty-narva.jpg", text: "💓💓💓 Нежная королева 💓💓💓" },
+            { src: "stickers/images/beauty-with-dog.jpg", text: "Такая ты красивая блин 💖💖💖!" },
+            { src: "stickers/images/beauty-jager.jpg", text: "Чемпионка в битве с ягером!!🎀🎀🎀" }
         ];
 
         const sequenceContainer = document.createElement("div");
