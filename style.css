@@ -3,18 +3,30 @@ body {
     text-align: center;
     background-color: #ffe6f2;
     margin: 0;
-    padding: 10px;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    height: auto;
     min-height: 100vh;
+    position: relative;
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
+.sticker-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh; /* Ensures stickers appear at the top */
+    pointer-events: none;
+}
+
 .container {
-    position: relative;
-    z-index: 100;
+    position: absolute;
+    bottom: 10px; /* Ensures it's at the bottom */
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 90%;
     width: 360px;
     padding: 15px;
@@ -85,12 +97,6 @@ button {
     pointer-events: none;
     background: transparent;
     animation: fade-in 0.5s ease-in-out;
-}
-
-#extended-area {
-    position: relative;
-    width: 100%;
-    height: 200vh; /* Expand the page for more stickers */
 }
 
 @keyframes fade-in {

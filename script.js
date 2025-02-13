@@ -2,19 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickerFolder = "stickers/";
     const stickerFormats = ["webm", "webp", "tgs"];
     const container = document.querySelector(".container");
-    const stickerContainer = document.body;
+    const stickerContainer = document.createElement("div");
+    stickerContainer.classList.add("sticker-container");
+    document.body.appendChild(stickerContainer);
     const videoElement = document.getElementById("valentineVideo");
-
-    // Create an extended area at the bottom for more stickers
-    const extendedArea = document.createElement("div");
-    extendedArea.id = "extended-area";
-    document.body.appendChild(extendedArea);
 
     const stickers = [];
     const stickerSize = 100;
-    const maxTries = 200;
-    const pageHeight = document.body.scrollHeight + window.innerHeight; // More height
-    const maxStickers = window.innerWidth < 600 ? 12 : 25; // Reduce stickers for small screens
+    const maxTries = 50;
+    const maxStickers = window.innerWidth < 600 ? 10 : 20; // More stickers for larger screens
 
     function getRandomPosition(max, padding = 0) {
         return Math.floor(Math.random() * (max - stickerSize - padding));
@@ -24,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return stickers.some(sticker => {
             const dx = sticker.x - newX;
             const dy = sticker.y - newY;
-            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.5; // Prevent overlap
+            return Math.sqrt(dx * dx + dy * dy) < stickerSize * 1.2;
         });
     }
 
@@ -40,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
             sticker.playsInline = true;
             sticker.style.backgroundColor = "transparent";
 
-            // Fix autoplay issue
             sticker.oncanplay = () => {
                 sticker.play().catch(() => console.warn("Autoplay blocked for sticker", stickerName));
             };
@@ -55,17 +50,20 @@ document.addEventListener("DOMContentLoaded", function () {
         let newX, newY;
         do {
             newX = getRandomPosition(window.innerWidth, 20);
-            newY = getRandomPosition(pageHeight, 20);
+            newY = getRandomPosition(window.innerHeight / 2, 20); // Stickers only at the top half
             attempts++;
         } while (isOverlapping(newX, newY) && attempts < maxTries);
 
-        if (attempts < maxTries) {
-            stickers.push({ x: newX, y: newY });
-            sticker.style.position = "absolute";
-            sticker.style.left = `${newX}px`;
-            sticker.style.top = `${newY}px`;
-            stickerContainer.appendChild(sticker);
+        if (attempts >= maxTries) {
+            newX = getRandomPosition(window.innerWidth);
+            newY = getRandomPosition(window.innerHeight / 2);
         }
+
+        stickers.push({ x: newX, y: newY });
+        sticker.style.position = "absolute";
+        sticker.style.left = `${newX}px`;
+        sticker.style.top = `${newY}px`;
+        stickerContainer.appendChild(sticker);
     }
 
     function playVideo(video) {
@@ -83,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.addEventListener("click", function () {
         playVideo(videoElement);
 
-        // Fix for all WebM stickers (force play on interaction)
         document.querySelectorAll("video.sticker").forEach(video => {
             video.play().catch(() => console.warn("Sticker autoplay blocked"));
         });
