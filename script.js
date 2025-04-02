@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     yesButton.addEventListener("click", function () {
-        textElement.innerText = "Дааааа это победа, люблю тебя очень сильно, ты моя любимая валентинка и лучшая девушка!!!";
+        textElement.innerText = "Победаааааа, люблю тебя очень сильно, ценю тебя так же сильно, ты лучшая и любимая девушка, спасибо за всё время проведённое вместе, всегда жду чтобы провести побольше времени вместе!!!!!!💗💗💗";
 
         mainImage.src = "stickers/sticker3.webp";
 
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reloadStickers();
 
         const newButton = document.createElement("button");
-        newButton.innerText = "💗 Открыть подарок 💗";
+        newButton.innerText = "💗 Открыть сюрприз 💗";
         newButton.id = "surpriseButton";
         newButton.style.marginTop = "20px";
         newButton.style.padding = "14px";
@@ -138,13 +138,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showImageSequence(button) {
         const imageSequence = [
-            { src: "stickers/images/beauty18.jpg", text: "Подарок это ты!!! 💓💓💓" },
-            { src: "stickers/images/beauty-photo.jpg", text: "💗🎀 ДА И ДА, ПРАВДА ТЫ 💗🎀" },
-            { src: "stickers/images/beauty-beach.jpg", text: "Нет, я не вру!!!💞💞💞!" },
-            { src: "stickers/images/beauty-teacher.jpg", text: "Как можно врать, когда ты такая красотка 💗🎀💗🎀💗🎀" },
-            { src: "stickers/images/beauty-narva.jpg", text: "💓💓💓 Нежная королева 💓💓💓" },
-            { src: "stickers/images/beauty-with-dog.jpg", text: "Такая ты красивая блин 💖💖💖!" },
-            { src: "stickers/images/beauty-jager.jpg", text: "Чемпионка в битве с ягером!!🎀🎀🎀" }
+            { src: "stickers/images/generated-1.jpg", text: "Подарок это ты!!! 💓💓💓" },
+            { src: "stickers/images/generated-2.jpg", text: "💗🎀 ДА И ДА, ПРАВДА ТЫ 💗🎀 (вот с элей)" },
+            { src: "stickers/images/generated-3.jpg", text: "Нет, я не вру, с тобой спокойствие!!!💞💞💞!" },
+            { src: "stickers/images/generated-4.jpg", text: "Как можно врать, когда ты такая красотка 💗🎀💗🎀💗🎀" },
+            { src: "stickers/images/generated-5.jpg", text: "💓💓💓 Нежная королева 💓💓💓" },
+            { src: "stickers/images/generated-6.jpg", text: "Такая ты красивая блин 💖💖💖!" },
+            { src: "stickers/images/generated-7.jpg", text: "Правда ну очень красивая 💗💗💗!!!" },
+            { src: "stickers/images/generated-8.jpg", text: "Чемпионка в битве с ягером!!🎀🎀🎀" },
+            { src: "stickers/images/generated-9.jpg", text: "Красивее любых персонажей мультиков!!🎀🎀🎀" },
+            { src: "stickers/images/generated-10.jpg", text: "Только и хочется смотреть на такую красотку 💖💖💖🎀🎀🎀" },
+            { src: "stickers/images/generated-11.jpg", text: "Нежная и мили мили девушка 💗💗💗" },
+            { src: "stickers/images/generated-12.jpg", text: "Вот такой вот дэп от королевы 🎀🎀🎀" },
+            { src: "stickers/images/generated-13.jpg", text: "Такие вот нежные мы 💖💖💖🎀🎀🎀" },
+            { src: "stickers/images/generated-14.jpg", text: "И ещё нас нежных 💗💗💗" },
+            { src: "stickers/images/generated-15.jpg", text: "Всё было вместе со снегом 💗💗💗" },
+            { src: "stickers/images/generated-16.jpg", text: "Лего мир прекрасен если ты там 🎀🎀🎀" },
+            { src: "stickers/images/generated-17.jpg", text: "С новым годом, люблю тебя очень сильно!!!!! 💓💓💓" }
         ];
 
         const sequenceContainer = document.createElement("div");
